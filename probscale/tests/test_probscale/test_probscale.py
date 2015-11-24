@@ -1,4 +1,4 @@
-import matplotlib
+﻿import matplotlib
 matplotlib.use('agg')
 
 import numpy as np
@@ -185,3 +185,27 @@ class Test_InvertedProbTransform(Mixin_Transform):
     def setup(self):
         self.trans = probscale.InvertedProbTransform(probscale._minimal_norm)
         self.known_tras_na = 69.1464492
+
+
+@nt.nottest
+def setup_ax():
+    fig1, ax1 = plt.subplots()
+    ax1.set_xlim(left=0.5, right=99.5)
+    ax1.set_ylim(bottom=0, top=5)
+    ax1.set_xscale('prob')
+
+    return fig1, ax1
+
+
+@image_comparison(baseline_images=['test_axlines'], extensions=['png'])
+def test_other_plotting_fxns():
+    fig1, ax1 = setup_ax()
+    ax1.axvline(x=25.7, ls='-', color='r')
+    ax1.axhline(y=3, ls='--', color='g')
+
+
+@image_comparison(baseline_images=['test_polygons'], extensions=['png'])
+def test_rectangle_artist():
+    fig2, ax2 = setup_ax()
+    rect = plt.Rectangle((2, 0.25), 28, 0.75)
+    ax2.add_artist(rect)

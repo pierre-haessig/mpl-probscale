@@ -170,6 +170,34 @@ def probplot(data, ax=None, axtype='prob', probax='x',
         return fig
 
 
+def plot_pos(data, postype=None, alpha=None, beta=None):
+    pos_params = {
+        'type 4':  (0, 1),
+        'type 5':  (0.5, 0.5),
+        'type 6':  (0, 0),
+        'type 7':  (1, 1),
+        'type 8':  (1/3., 1/3.),
+        'type 9':  (3/8., 3/8.),
+        'cunnane':  (0.4, 0.4),
+        'apl':  (0.35, 0.35),
+        'pwm':  (0.35, 0.35),
+        'weibull': (0, 0),
+    }
+
+    if alpha is None and beta is None:
+        alpha, beta = pos_params.get(postype, pos_params['cunnane'])
+
+    data = numpy.asarray(data, dtype=float).flatten()
+    n = data.shape[0]
+    pos = numpy.empty_like(data)
+    pos[n:] = 0
+
+    sorted_index = data.argsort()
+    pos[sorted_index[:n]] = (numpy.arange(1, n+1) - alpha) / (n + 1.0 - alpha - beta)
+
+    return pos, data[sorted_index]
+
+
 def _fit_line(x, y, xhat=None, fitprobs=None, fitlogs=None, dist=None):
     """ Fits a line to x-y data in various forms (raw, log, prob scales)
 

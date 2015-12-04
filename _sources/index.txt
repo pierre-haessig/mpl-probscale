@@ -3,8 +3,13 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-mpl-probscale's documentation
-=============================
+
+.. include:: ../README.rst
+
+
+
+API References
+==============
 
 .. toctree::
    :maxdepth: 2
@@ -12,11 +17,6 @@ mpl-probscale's documentation
    viz.rst
 
    probscale.rst
-
-Quick start
-===========
-
-.. include:: ../README.rst
 
 
 Indices and tables

@@ -1,0 +1,255 @@
+
+Getting started with ``mpl-probscale``.
+=======================================
+
+Installation
+------------
+
+``mpl-probscale`` is a pure python package. It should be fairly trivial
+to install from source on any platform. To do that, download or clone
+from `github <https://github.com/phobson/mpl-probscale>`__, unzip the
+archive if necessary then do:
+
+::
+
+    cd mpl-probscale # or wherever the setup.py got placed
+    pip install .
+
+I recommend ``pip install .`` over ``python setup.py install`` for
+`reasons I don't fully
+understand <https://github.com/numpy/numpy/issues/6551>`__.
+
+.. code:: python
+
+    import warnings
+    warnings.simplefilter('ignore')
+    
+    import numpy
+    from matplotlib import pyplot
+    from scipy import stats
+    import seaborn
+    
+    clear_bkgd = {'axes.facecolor':'none', 'figure.facecolor':'none'}
+    seaborn.set(style='ticks', context='notebook', rc=clear_bkgd)
+    %matplotlib inline
+
+Background
+----------
+
+To the casual user, you can set matplotlib scales to either "linear" or
+"log" (logarithmic). There are others (e.g., logit, symlog), but I
+haven't seen them too much in the wild.
+
+Linear scales are the default:
+
+.. code:: python
+
+    fig, ax = pyplot.subplots()
+    seaborn.despine(fig=fig)
+
+
+
+.. image:: getting_started_files/getting_started_3_0.png
+
+
+Logarithmic scales can work well when your data cover several orders of
+magnitude and don't have to be in base 10.
+
+.. code:: python
+
+    fig, (ax1, ax2) = pyplot.subplots(nrows=2, figsize=(8,3))
+    ax1.set_xscale('log')
+    ax1.set_xlim(left=1e-3, right=1e3)
+    ax1.set_xlabel("Base 10")
+    ax1.set_yticks([])
+    
+    ax2.set_xscale('log', basex=2)
+    ax2.set_xlim(left=2**-3, right=2**3)
+    ax2.set_xlabel("Base 2")
+    ax2.set_yticks([])
+    
+    seaborn.despine(fig=fig, left=True)
+
+
+
+
+.. image:: getting_started_files/getting_started_5_0.png
+
+
+Probabilty Scales
+~~~~~~~~~~~~~~~~~
+
+``mpl-probscale`` let's you use probability scales. All you need to do
+is import it.
+
+Before importing:
+
+.. code:: python
+
+    try:
+        fig, ax = pyplot.subplots()
+        ax.set_xscale('prob')
+    except ValueError as e:
+        pyplot.close(fig)
+        print(e)
+
+
+.. parsed-literal::
+
+    Unknown scale type 'prob'
+
+
+It works after importing. Probability scales default to the standard
+normal distribution. Not that the formatting is is a percentage-based
+probability.
+
+.. code:: python
+
+    import probscale
+    fig, ax = pyplot.subplots(figsize=(8, 3))
+    ax.set_xscale('prob')
+    ax.set_xlim(left=0.5, right=99.5)
+    ax.set_xlabel('Normal probability scale (%)')
+    seaborn.despine(fig=fig)
+
+
+
+.. image:: getting_started_files/getting_started_10_0.png
+
+
+You can even use different probability distributions, though it can be
+tricky. You have to pass a frozen distribution to the ``dist`` kwarg in
+``ax.set_[x|y]scale``.
+
+Here's a standard normal scale right next to a beta scale
+(:math:`\alpha = 1` and :math:`\beta = 1`) for comparison
+
+.. code:: python
+
+    import paramnormal
+    
+    beta1 = paramnormal.beta(α=3, β=2)
+    beta2 = paramnormal.beta(α=2, β=7)
+    
+    fig, (ax1, ax2, ax3, ax4) = pyplot.subplots(figsize=(8, 5), nrows=4)
+    
+    ax1.set_xscale('prob')
+    ax1.set_xlim(left=2, right=98)
+    ax1.set_xlabel('Normal probability scale')
+    ax1.set_yticks([])
+    
+    ax2.set_xscale('prob', dist=beta1)
+    ax2.set_xlim(left=2, right=98)
+    ax2.set_xlabel('Beta probability scale (α=3, β=2)')
+    ax2.set_yticks([])
+    
+    ax3.set_xscale('prob', dist=beta2)
+    ax3.set_xlim(left=2, right=98)
+    ax3.set_xlabel('Beta probability scale (α=2, β=7)')
+    ax3.set_yticks([])
+    
+    ax4.set_xlim(left=2, right=98)
+    ax4.set_xticks(ax1.get_xticks()[14:-14])
+    ax4.set_xlabel('Linear scale (for reference)')
+    ax4.set_yticks([])
+    
+    seaborn.despine(fig=fig, left=True)
+
+
+
+
+.. image:: getting_started_files/getting_started_12_0.png
+
+
+Ready-made probability plots
+----------------------------
+
+``mpl-probscale`` ships with a small ``viz`` module that can help you
+make a probability plot of a sample.
+
+With only the sample data, ``probscale.probplot`` will create a figure,
+compute the plotting position and non-exceedance probabilities, and plot
+everything:
+
+.. code:: python
+
+    numpy.random.seed(0)
+    sample = paramnormal.normal(μ=4, σ=2).rvs(size=37)
+    
+    fig = probscale.probplot(sample)
+    seaborn.despine(fig=fig)
+
+
+
+.. image:: getting_started_files/getting_started_14_0.png
+
+
+You should specify the matplotlib axes on which the plot should occur if
+you want to make the plot fancier:
+
+.. code:: python
+
+    fig, ax = pyplot.subplots(figsize=(7, 3))
+    
+    # feed in the data
+    probscale.probplot(sample, ax=ax)
+    
+    ax.set_ylabel('Normal Values')
+    ax.set_xlabel('Non-exceedance probability')
+    ax.set_xlim(left=1, right=99)
+    seaborn.despine(fig=fig)
+
+
+
+.. image:: getting_started_files/getting_started_16_0.png
+
+
+Other options
+~~~~~~~~~~~~~
+
+.. code:: python
+
+    fig, ax = pyplot.subplots(figsize=(3, 7))
+    
+    numpy.random.seed(0)
+    new_sample = paramnormal.lognormal(μ=2.0, σ=0.75).rvs(size=37)
+    
+    probscale.probplot(
+        new_sample,
+        ax=ax,
+        probax='y',        # flip the plot
+        otherscale='log',  # scale of the non-probability axis
+        bestfit=True,      # draw a best-fit line
+        xlabel='Lognormal Values',  # labels and markers...
+        ylabel='Non-exceedance probability',
+        scatter_kws=dict(marker='d', zorder=2, mew=1.25, mec='w', markersize=10),
+        line_kws=dict(color='0.17', linewidth=2.5, zorder=0, alpha=0.75),
+    )
+    
+    ax.set_ylim(bottom=1, top=99)
+    seaborn.despine(fig=fig)
+
+
+
+.. image:: getting_started_files/getting_started_18_0.png
+
+
+Percentile and Quanitile plots
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For convenience, you can do percetile and quantile plots with the same
+function.
+
+.. note:: The percentile and probability axes are plotted against the same values. The difference is only that "percentiles" are plotted on a linear scale.
+
+.. code:: python
+
+    fig, (ax1, ax2) = pyplot.subplots(ncols=2, figsize=(7, 2))
+    probscale.probplot(sample, ax=ax1, axtype='pp', xlabel='Percentiles')
+    probscale.probplot(sample, ax=ax2, axtype='qq', xlabel='Quantiles')
+    seaborn.despine(fig=fig)
+
+
+
+.. image:: getting_started_files/getting_started_20_0.png
+

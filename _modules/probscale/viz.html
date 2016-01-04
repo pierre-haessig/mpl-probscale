@@ -63,8 +63,16 @@
           
           
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../viz.html"><code class="docutils literal"><span class="pre">viz</span></code> API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial/getting_started.html">Getting started with <code class="docutils literal"><span class="pre">mpl-probscale</span></code>.</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/getting_started.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/getting_started.html#background">Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial/getting_started.html#ready-made-probability-plots">Ready-made probability plots</a></li>
+</ul>
+</li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../probscale.html"><code class="docutils literal"><span class="pre">probscale</span></code> API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../viz.html"><code class="docutils literal"><span class="pre">viz</span></code> API Reference</a></li>
 </ul>
 
           
@@ -167,9 +175,9 @@
 <span class="sd">        will be created.</span>
 <span class="sd">    axtype : string (default = &#39;prob&#39;)</span>
 <span class="sd">        Type of plot to be created. Options are:</span>
-<span class="sd">          - &#39;prob&#39;: probabilty plot</span>
-<span class="sd">          - &#39;pp&#39;: percentile plot</span>
-<span class="sd">          - &#39;qq&#39;: quantile plot</span>
+<span class="sd">           - &#39;prob&#39;: probabilty plot</span>
+<span class="sd">           - &#39;pp&#39;: percentile plot</span>
+<span class="sd">           - &#39;qq&#39;: quantile plot</span>
 <span class="sd">    probax : string, optional (default = &#39;x&#39;)</span>
 <span class="sd">        The axis (&#39;x&#39; or &#39;y&#39;) that will serve as the probability (or</span>
 <span class="sd">        quantile) axis.</span>
@@ -185,16 +193,19 @@
 <span class="sd">        when drawing the scatter points and best-fit line, respectively.</span>
 <span class="sd">    return_results : bool (default = False)</span>
 <span class="sd">        If True a dictionary of results of is returned along with the</span>
-<span class="sd">        figure. Keys are:</span>
-<span class="sd">          - q: array of quantiles</span>
-<span class="sd">          - x, y: arrays of data passed to function</span>
-<span class="sd">          - xhat, yhat: arrays of modeled data plotted in best-fit line</span>
-<span class="sd">          - res: array of coeffcients of the best-fit line.</span>
+<span class="sd">        figure.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    fig : matplotlib.Figure</span>
-<span class="sd">    result : dictionary of linear fit results.</span>
+<span class="sd">        The figure on which the plot was drawn.</span>
+<span class="sd">    result : dictionary of linear fit results, optional</span>
+<span class="sd">        Keys are:</span>
+<span class="sd">           - q: array of quantiles</span>
+<span class="sd">           - x, y: arrays of data passed to function</span>
+<span class="sd">           - xhat, yhat: arrays of modeled data plotted in best-fit line</span>
+<span class="sd">           - res: array of coeffcients of the best-fit line.</span>
+
 
 <span class="sd">    &quot;&quot;&quot;</span>
 

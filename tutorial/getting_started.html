@@ -113,6 +113,13 @@
 <h1>Getting started with <code class="docutils literal"><span class="pre">mpl-probscale</span></code>.<a class="headerlink" href="#getting-started-with-mpl-probscale" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="from-conda">
+<h3>From <code class="docutils literal"><span class="pre">conda</span></code><a class="headerlink" href="#from-conda" title="Permalink to this headline">¶</a></h3>
+<p>I&#8217;ve uploaded the package to my anaonda channel.</p>
+<p><code class="docutils literal"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">--channel=phobson</span> <span class="pre">mpl-probscale</span></code></p>
+</div>
+<div class="section" id="from-source">
+<h3>From source<a class="headerlink" href="#from-source" title="Permalink to this headline">¶</a></h3>
 <p><code class="docutils literal"><span class="pre">mpl-probscale</span></code> is a pure python package. It should be fairly trivial
 to install from source on any platform. To do that, download or clone
 from <a class="reference external" href="https://github.com/phobson/mpl-probscale">github</a>, unzip the
@@ -136,6 +143,7 @@ clear_bkgd = {&#39;axes.facecolor&#39;:&#39;none&#39;, &#39;figure.facecolor&#39
 seaborn.set(style=&#39;ticks&#39;, context=&#39;notebook&#39;, rc=clear_bkgd)
 %matplotlib inline
 </pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="background">
@@ -292,8 +300,10 @@ seaborn.despine(fig=fig)
 function.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The percentile and probability axes are plotted against the same values. The difference is only that &#8220;percentiles&#8221; are plotted on a linear scale.</p>
+<p class="last">The percentile and probability axes are plotted against the</p>
 </div>
+<p>same values. The difference is only that &#8220;percentiles&#8221; are plotted on a
+linear scale.</p>
 <div class="code python highlight-python"><div class="highlight"><pre><span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">pyplot</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <span class="n">probscale</span><span class="o">.</span><span class="n">probplot</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">,</span> <span class="n">axtype</span><span class="o">=</span><span class="s">&#39;pp&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">&#39;Percentiles&#39;</span><span class="p">)</span>
 <span class="n">probscale</span><span class="o">.</span><span class="n">probplot</span><span class="p">(</span><span class="n">sample</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax2</span><span class="p">,</span> <span class="n">axtype</span><span class="o">=</span><span class="s">&#39;qq&#39;</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">&#39;Quantiles&#39;</span><span class="p">)</span>

@@ -5,6 +5,16 @@ Getting started with ``mpl-probscale``.
 Installation
 ------------
 
+From ``conda``
+~~~~~~~~~~~~~~
+
+I've uploaded the package to my anaonda channel.
+
+``conda install --channel=phobson mpl-probscale``
+
+From source
+~~~~~~~~~~~
+
 ``mpl-probscale`` is a pure python package. It should be fairly trivial
 to install from source on any platform. To do that, download or clone
 from `github <https://github.com/phobson/mpl-probscale>`__, unzip the
@@ -240,7 +250,9 @@ Percentile and Quanitile plots
 For convenience, you can do percetile and quantile plots with the same
 function.
 
-.. note:: The percentile and probability axes are plotted against the same values. The difference is only that "percentiles" are plotted on a linear scale.
+.. note:: The percentile and probability axes are plotted against the
+same values. The difference is only that "percentiles" are plotted on a
+linear scale.
 
 .. code:: python
 
